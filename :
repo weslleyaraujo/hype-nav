@@ -1,0 +1,54 @@
+var hypenessNavigator = (function (window, jQuery) {
+	var app, _private;
+	
+	_private = {
+		applyScreen: function () {
+			$.fn.is_on_screen = function(){
+					var win = $(window);
+					var viewport = {
+							top : win.scrollTop(),
+							left : win.scrollLeft()
+					};
+					viewport.right = viewport.left + win.width();
+					viewport.bottom = viewport.top + win.height();
+			 
+					var bounds = this.offset();
+					bounds.right = bounds.left + this.outerWidth();
+					bounds.bottom = bounds.top + this.outerHeight();
+			 
+					return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
+			};
+		}
+	};
+
+	app = {
+
+	};
+
+	return app;
+
+}(window, jQuery));
+
+ 
+$('#content').find('div#post').addClass('post');
+$('#content').find('.post').each(function () {
+  if ( $(this).is_on_screen() ) {
+    $(this).addClass('is-visible');
+  }
+});
+$('#content').find('.post.is-visible').eq(0).addClass('is-actual');
+$('#content').find('.post.is-visible').removeClass('is-visible');
+$('html, body').animate({ scrollTop: $('#content').find('.post.is-visible.is-actual').offset().top-10},800);
+$('body').keypress(function (e) {
+  if (e.which === 106) {
+    $('#content').find('.post.is-visible').next().addClass('is-actual');
+    $('#content').find('.post.is-visible').removeClass('is-visible').removeClass('is-actual');
+    $('#content').find('.post.is-actual').addClass('is-visible');
+   }
+   if (e.which === 107) {
+    $('#content').find('.post.is-visible').prev().addClass('is-actual');
+    $('#content').find('.post.is-visible').removeClass('is-visible').removeClass('is-actual');
+    $('#content').find('.post.is-actual').addClass('is-visible');
+   }
+   $('html, body').animate({ scrollTop: $('#content').find('.post.is-visible.is-actual').offset().top-10},400);
+});
