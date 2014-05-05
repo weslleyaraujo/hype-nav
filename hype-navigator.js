@@ -150,7 +150,7 @@ var hypenessNavigator = (function (window, jQuery) {
 				break;
 
 				case config.keys.opener :
-					console.log('abre ai')
+					_private.compose(app.open, app.getLink)();
 				break;
 			}
 		},
@@ -177,7 +177,16 @@ var hypenessNavigator = (function (window, jQuery) {
 					scrollTop: ($(window).scrollTop() + 200)
 				},400);
 			}
+		},
+
+		open: function (link) {
+			window.open(link, '_blank');
+		},
+
+		getLink: function () {
+			return _private.getVisible().find('#title').find('a').attr('href');
 		}
+
 	};
 
 	return app;
